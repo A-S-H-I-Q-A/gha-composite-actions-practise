@@ -13,8 +13,8 @@ runs:
   using: "composite"
   steps:
     - name: Cache dependencies
-      id: cache
       if: inputs.caching == 'true'
+      id: cache
       uses: actions/cache@v5
       with:
         path: node_modules
@@ -22,15 +22,16 @@ runs:
     - name: Install dependencies
       id: install
       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
+      run: npm ci
+      shell: bash
+    - name: Set installed to true if installed
+      # if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
+      if: steps.install.outcome == 'success'
       run: echo "installed=true" >> $GITHUB_OUTPUT
       shell: bash
     - name: Set installed to false if skipped
       if: steps.install.outcome == 'skipped'
       run: echo "installed=false" >> $GITHUB_OUTPUT
-      shell: bash
-    - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
-      run: npm ci
       shell: bash
     - name: Display caching value
       run: echo "Caching is set to ${{ inputs.caching }}"
