@@ -21,7 +21,7 @@ jobs:
       - name: Cache dependencies
         uses: ./.github/actions/cache-deps
         with:
-          caching: ${{ fromJSON(secrets.caching) }}
+          caching: ${{ secrets.caching }}
 
       - name: Lint code
         run: npm run lint
@@ -42,7 +42,7 @@ jobs:
       - name: Cache dependencies
         uses: ./.github/actions/cache-deps
         with:
-          caching: ${{ fromJSON(secrets.caching) }}
+          caching: ${{ secrets.caching }}
 
       - name: Test code
         id: run-tests
@@ -71,7 +71,7 @@ jobs:
       - name: Cache dependencies
         uses: ./.github/actions/cache-deps
         with:
-          caching: ${{ fromJSON(secrets.caching) }}
+          caching: ${{ secrets.caching }}
 
       - name: Build website
         run: npm run build

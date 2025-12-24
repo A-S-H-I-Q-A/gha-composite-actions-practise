@@ -1,23 +1,26 @@
 name: Cache deps
 description: Cache dependencies
+env:
+  caching: ${{ inputs.caching }}
 inputs:
   caching:
     description: determine whether to cache or not
     required: false
-    default: true
+    default: "true"
 runs:
   using: "composite"
   steps:
     - name: Cache dependencies
       id: cache
+      if: inputs.caching == 'true'
       uses: actions/cache@v5
       with:
         path: node_modules
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit == 'false' || inputs.caching == false
+      if: steps.cache.outputs.cache-hit == 'false' || inputs.caching == 'false'
       run: npm ci
       shell: bash
     - name: Display caching value
-      run: echo "Caching is set to ${{ inputs.caching }}"
+      run: echo "Caching is set to ${{ env.caching }}"
       shell: bash
