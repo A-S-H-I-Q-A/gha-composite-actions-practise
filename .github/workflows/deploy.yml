@@ -19,9 +19,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Cache dependencies
+        id: cache-deps
         uses: ./.github/actions/cache-deps
         with:
           caching: ${{ secrets.caching }}
+
+      - name: Display installed-dependencies output
+        run: |
+          echo "Installed dependencies: ${{ steps.cache-deps.outputs.installed-dependencies }}"
 
       - name: Lint code
         run: npm run lint
