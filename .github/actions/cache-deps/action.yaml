@@ -1,12 +1,12 @@
 name: Cache deps
 description: Cache dependencies
-env:
-  caching: ${{ inputs.caching }}
 inputs:
   caching:
     description: determine whether to cache or not
     required: false
     default: "true"
+env:
+  caching: ${{ inputs.caching }}
 runs:
   using: "composite"
   steps:
