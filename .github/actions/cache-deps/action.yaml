@@ -5,8 +5,6 @@ inputs:
     description: determine whether to cache or not
     required: false
     default: "true"
-env:
-  caching: ${{ inputs.caching }}
 runs:
   using: "composite"
   steps:
@@ -22,5 +20,5 @@ runs:
       run: npm ci
       shell: bash
     - name: Display caching value
-      run: echo "Caching is set to ${{ env.caching }}"
+      run: echo "Caching is set to ${{ inputs.caching == 'true' }}"
       shell: bash
