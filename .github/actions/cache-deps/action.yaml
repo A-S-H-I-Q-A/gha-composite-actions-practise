@@ -1,5 +1,10 @@
 name: Cache deps
 description: Cache dependencies
+inputs:
+  caching:
+    description: determine whether to cache or not
+    required: false
+    default: true
 runs:
   using: "composite"
   steps:
@@ -10,6 +15,6 @@ runs:
         path: node_modules
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
+      if: steps.cache.outputs.cache-hit != 'true' || !inputs.caching
       run: npm ci
       shell: bash
